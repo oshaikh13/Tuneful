@@ -39,6 +39,7 @@ var audio = (function () {
 
         stream.on('data', function (data) {
             parts.push(data);
+            console.log('recieving data');
         });
 
         stream.on('error', function (err) {
