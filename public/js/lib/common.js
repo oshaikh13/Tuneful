@@ -1,7 +1,7 @@
 var hostname, client;
 
 hostname = window.location.hostname;
-client   = new BinaryClient('ws://' + hostname + ':9000');
+client   = new BinaryClient('ws://' + hostname + ':' + location.port);
 
 function fizzle(e) {
     e.preventDefault();
