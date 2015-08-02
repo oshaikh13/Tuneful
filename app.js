@@ -33,9 +33,9 @@ app.use(session({ secret: 'hahahahahahagetshrektm9' })); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 
-app.use(express.static(__dirname + '/views'));
-
 require('./lib/routes.js')(app, passport);
+
+app.use(express.static(__dirname + '/views'));
 
 // development only
 // if ('development' == app.get('env')) {
