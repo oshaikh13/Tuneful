@@ -18,21 +18,19 @@ binaryFeatures.useArrayBufferView = !binaryFeatures.useBlobBuilder && (function(
   }
 })();
 binaryFeatures.supportsBinaryWebsockets = (function(){
-
-  // Assume we do not support sockets
-  // try {
-  //   var wstest = new WebSocket('ws://null');
-  //   wstest.onerror = function(){};
-  //   if (typeof(wstest.binaryType) !== "undefined") {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  //   wstest.close();
-  //   wstest = null;
-  // } catch (e) {
+  try {
+    var wstest = new WebSocket('ws://null');
+    wstest.onerror = function(){};
+    if (typeof(wstest.binaryType) !== "undefined") {
+      return true;
+    } else {
+      return false;
+    }
+    wstest.close();
+    wstest = null;
+  } catch (e) {
     return false;
-  // }
+  }
 })();
 
 exports.binaryFeatures = binaryFeatures;
