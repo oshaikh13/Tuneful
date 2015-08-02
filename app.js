@@ -28,11 +28,11 @@ if ('development' == app.get('env')) {
 
 server = http.createServer(app);
 
-server.listen(3000, function () {
+server.listen(process.env.PORT || 3000, function () {
     console.log('audio Server started on http://0.0.0.0:3000');
 });
 
-bs = new BinaryServer({ port: 9000 });
+bs = new BinaryServer({server: server});
 
 bs.on('connection', function (client) {
     client.on('stream', function (stream, meta) {
