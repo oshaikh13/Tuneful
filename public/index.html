@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf8">
+        <title>Omar's Visualizer</title>
+
+        <link rel="stylesheet" href="/css/style.css">
+    </head>
+
+    <body>
+        <h1>An Audio Streaming Live Visualizer.</h1>
+
+        <section id="main">
+            <fieldset>
+                <legend>Drag n Drop</legend>
+                <aside id="upload-box">
+                    <article id="progress">Drop file here</article>
+                </aside>
+            </fieldset>
+
+            <fieldset>
+                <legend>Select a Link (and it will play)</legend>
+
+                <nav id="list"></nav>
+            </fieldset>
+
+            <fieldset>
+                <legend>Play the Audio</legend>
+
+                <audio id="audio"> </audio>
+            </fieldset>
+
+            <fieldset>
+                <legend>Color Change coming soon :)</legend>
+            </fieldset>
+        </section>
+
+        <script src="/js/lib/d3.js"></script>
+        <script src="/js/lib/binary.js"></script>
+        <script src="/js/lib/jquery.js"></script>
+        <script src="/js/lib/common.js"></script>
+        <script src="/js/lib/audio.js"></script>
+        <script src="/js/lib/visualize.js"></script>
+        <script src="/js/main.js"></script>
+    </body>
+</html>
