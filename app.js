@@ -42,7 +42,7 @@ passport.use(new LocalStrategy(
           return done(null, false);
         }
 
-        if (!userMethods.isValidPassword(user, password)) {
+        if (!userMethods.isValidPassword(user, password, bcrypt)) {
           return done(null, false);
         }
 
@@ -67,7 +67,7 @@ passport.deserializeUser(function(id, done) {
 });
 
 
-require('./lib/routes.js')(app, passport, db);
+require('./lib/routes.js')(app, passport, db, bcrypt);
 
 app.use(express.static(__dirname + '/views'));
 
