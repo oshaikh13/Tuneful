@@ -36,15 +36,8 @@ $(document).ready(function(){
 
 
   var color = d3.scale.linear()
-    .domain([-1, 0, 1])
-    .range(["red", "white", "green"]);
- 
-  color(-1)   // "#ff0000" red
-  color(-0.5) // "#ff8080" pinkish
-  color(0)    // "#ffffff" white
-  color(0.5)  // "#80c080" getting greener
-  color(0.7)  // "#4da64d" almost there..
-  color(1)    // "#008000" totally green!
+    .domain([0, 1])
+    .range(["white", "green"]);
 
   // Continuously loop and update chart with frequency data.
   function renderChart() {
