@@ -3,27 +3,27 @@
  */
 'use strict';
 
-var BinaryServer, express, http, path, app, audio, server, bs, db, cookieParser, bodyParser, session, passport;
+var BinaryServer, express, http, path, app, audio, server, 
+bs, db, cookieParser, bodyParser, session, passport, 
+LocalStrategy, userMethods, bcrypt;
 
-BinaryServer = require('binaryjs').BinaryServer;
-express      = require('express');
-http         = require('http');
-path         = require('path');
-app          = express();
-audio        = require('./lib/audio');
-db           = require('./schema.js');
-cookieParser = require('cookie-parser');
-bodyParser   = require('body-parser');
-session      = require('express-session');
-passport     = require('passport');
+BinaryServer  = require('binaryjs').BinaryServer;
+express       = require('express');
+http          = require('http');
+path          = require('path');
+app           = express();
+audio         = require('./lib/audio');
+db            = require('./schema.js');
+cookieParser  = require('cookie-parser');
+bodyParser    = require('body-parser');
+session       = require('express-session');
+passport      = require('passport');
+LocalStrategy = require('passport-local').Strategy;
+userMethods   = require('./lib/authMethods.js');
+bcrypt        = require('bcrypt-nodejs');
 
-
-// all environments
-//app.use(express.favicon());
-//app.use(express.logger('dev'));
 app.use(bodyParser.json());
-//app.use(express.urlencoded());
-//app.use(express.methodOverride());
+app.use(bodyParser.urlencoded());
 
 app.engine('html', require('./lib/htmlEngine.js'));
 app.set('view engine', 'html');
@@ -33,14 +33,43 @@ app.use(session({ secret: 'hahahahahahagetshrektm9' })); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 
-require('./lib/routes.js')(app, passport);
+
+
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+    db.User.findOne({ where: {username: username} }).then(function(user) {
+        if (!user) {
+          return done(null, false);
+        }
+
+        if (!userMethods.isValidPassword(user, password)) {
+          return done(null, false);
+        }
+
+        return done (null, user);
+    });
+  }
+));
+
+passport.serializeUser(function(user, done) {
+    done(null, user.dataValues.id);
+
+});
+
+passport.deserializeUser(function(id, done) {
+    db.User.findOne({
+      where: {
+        id: id
+      }
+    }).then(function(user){
+        done(null, user);
+    });
+});
+
+
+require('./lib/routes.js')(app, passport, db);
 
 app.use(express.static(__dirname + '/views'));
-
-// development only
-// if ('development' == app.get('env')) {
-//     app.use(express.errorHandler());
-// }
 
 server = http.createServer(app);
 
