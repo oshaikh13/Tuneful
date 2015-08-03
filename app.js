@@ -42,11 +42,15 @@ passport.use(new LocalStrategy(
           return done(null, false);
         }
 
-        if (!userMethods.isValidPassword(user, password, bcrypt)) {
-          return done(null, false);
-        }
+        userMethods.isValidPassword(user, password, bcrypt, function(res){
+            if (!res) {
+                done(null, false);
+            } else {
+                done(null, user);
+            }
+        });
 
-        return done (null, user);
+
     });
   }
 ));
